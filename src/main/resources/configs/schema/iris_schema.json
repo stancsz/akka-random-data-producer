@@ -1,0 +1,26 @@
+[
+  {
+    "name":"Id",
+    "type": "INT"
+  },
+  {
+    "name":"SepalLengthCm",
+    "type": "FLOAT"
+  },
+  {
+    "name":"SepalWidthCm",
+    "type": "FLOAT"
+  },
+  {
+    "name":"PetalLengthCm",
+    "type": "FLOAT"
+  },
+  {
+    "name":"PetalWidthCm",
+    "type": "FLOAT"
+  },
+  {
+    "name":"Species",
+    "type": "VARCHAR"
+  }
+]

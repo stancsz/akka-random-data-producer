@@ -1,0 +1,6 @@
+[debug] > Exec(libraryDependencies += "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2", None, None)
+[error] Expected whitespace character
+[error] Expected '/'
+[error] libraryDependencies += "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2"
+[error]                     ^
+[debug] > Exec(idea-shell, None, None)
