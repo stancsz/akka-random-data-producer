@@ -11,11 +11,7 @@ import slick.jdbc.GetResult
 import scala.concurrent.Future
 
 object SQLSender {
-  //Set up SlickSession that reads the "slick-mysql" configuration from application.conf
-  implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: ActorMaterializer = ActorMaterializer()
-  implicit val session: SlickSession = SlickSession.forConfig("slick-mysql")
-  system.registerOnTermination(session.close())
+
   //Iris domain
   case class Iris(id: Int, sepalLengthCm: Float, sepalWidthCm: Float, petalLengthCm: Float,
                   petalWidthCm: Float, species: String)
@@ -30,6 +26,11 @@ object SQLSender {
 
 
   def streamCSV(csvPath: String): Unit = {
+    //Set up SlickSession that reads the "slick-mysql" configuration from application.conf
+    implicit val system: ActorSystem = ActorSystem()
+    implicit val mat: ActorMaterializer = ActorMaterializer()
+    implicit val session: SlickSession = SlickSession.forConfig("slick-mysql")
+    system.registerOnTermination(session.close())
     val csvSource = scala.io.Source.fromFile(csvPath)
     val lines = csvSource.getLines.drop(1).toList
     val ires = lines.map(lineRead)
