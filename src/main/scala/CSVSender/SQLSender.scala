@@ -1,5 +1,5 @@
 package com.sqlwriter
-package Sender
+package CSVSender
 
 import akka.Done
 import akka.actor.ActorSystem

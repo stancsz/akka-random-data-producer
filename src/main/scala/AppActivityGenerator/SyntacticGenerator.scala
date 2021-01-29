@@ -12,11 +12,11 @@ import scala.collection.mutable
 * https://doc.akka.io/docs/alpakka/current/slick.html
 *
 * */
-class AppActivityGenerator {
+class SyntacticGenerator {
   /*
-  * util code for syntatically generating two models:
-  * 1. courier(courier_id, courier_score, courier_coordinate, order_created)
-  * 2. order(order_id, order_value, order_coordinate, order_created)
+  * util code for syntactically generating two models:
+  * 1. courier(courier_id, courier_score, order_created, courier_coordinate)
+  * 2. order(order_id, order_value, order_created, order_coordinate)
   * */
 
   def generateRandomCoordinate(x1: Double, y1: Double, x2: Double, y2: Double): Seq[Double] = {
