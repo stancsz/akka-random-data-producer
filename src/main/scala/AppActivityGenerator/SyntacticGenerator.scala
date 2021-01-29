@@ -17,12 +17,18 @@ class SyntacticGenerator {
   * util code for syntactically generating two models:
   * 1. courier(courier_id, courier_score, order_created, courier_coordinate)
   * 2. order(order_id, order_value, order_created, order_coordinate)
+  * Calgary is used in example:
+  * selected range:
+  * 50.93693487404149, -114.13936397558079
+  * 51.15709214704997, -113.96014950430495
+  *
   * */
+  val (x1, y1, x2, y2) = (50.93693487404149, -114.13936397558079, 51.15709214704997, -113.96014950430495)
 
-  def generateRandomCoordinate(x1: Double, y1: Double, x2: Double, y2: Double): Seq[Double] = {
-    val xr = x1 + Random.between(x1, x2)
-    val yr = y1 + Random.between(y1, y2)
-    Seq(xr, yr)
+  def generateRandomCoordinate(lat1: Double = x1, lon1: Double =y1, lat2: Double=x2, long2: Double=y2): Seq[Double] = {
+    val lat = Random.between(lat1, lat2)
+    val lon = Random.between(lon1, long2)
+    Seq(lat, lon)
   }
 
   def generateUUID(): String = {
