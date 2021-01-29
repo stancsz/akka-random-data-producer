@@ -4,7 +4,15 @@ package AppActivityGenerator
 import java.sql.Timestamp
 
 
-class Models {
-   class Courier(courier_id:String, courier_score: Double, order_created: Timestamp, lat: Double, lon: Double)
-   class Order(order_id:String,  courier_score: Double, order_created: Timestamp, lat: Double, lon: Double)
+object Models {
+   val gen : SyntacticGenerator = new SyntacticGenerator()
+   class Courier(courier_id:String=gen.generateUUID(),
+                 courier_score: Double=gen.generateScore(),
+                 order_created: Timestamp=gen.getTimestamp(),
+                 coordinates: Seq[Double] = gen.generateRandomCoordinate())
+
+   class Order(order_id:String=gen.generateUUID(),
+               courier_score: Double=gen.generateScore(),
+               order_created: Timestamp=gen.getTimestamp(),
+               coordinates: Seq[Double] = gen.generateRandomCoordinate())
 }

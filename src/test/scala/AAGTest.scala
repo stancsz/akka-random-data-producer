@@ -12,6 +12,8 @@ object GeneratorRunner{
     print(aag.generateUUID())
     print("\n")
     print(aag.getTimestamp())
+    print("\n")
+    print(aag.generateScore())
   }
 }
 

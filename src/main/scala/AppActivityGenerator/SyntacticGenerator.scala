@@ -43,4 +43,6 @@ class SyntacticGenerator {
     timestamp
   }
 
+  def generateScore(): Double={Random.between(0.0, 10.0)}
+
 }
