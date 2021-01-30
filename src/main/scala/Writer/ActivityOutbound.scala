@@ -32,12 +32,12 @@ class ActivityOutbound {
   import session.profile.api._
 
 
-  // Stream the results of a query
-  val done: Future[Done] =
-    Slick
-      .source(TableQuery[Courier].result)
-      .log("courier")
-      .runWith(Sink.ignore)
+//  // Stream the results of a query
+//  val done: Future[Done] =
+//    Slick
+//      .source(TableQuery[Courier].result)
+//      .log("courier")
+//      .runWith(Sink.ignore)
 
 
 }
