@@ -6,14 +6,11 @@ import com.sqlwriter.AppActivityGenerator.SyntacticGenerator
 import java.sql.Timestamp
 
 class Courier() {
-  val gen : SyntacticGenerator = new SyntacticGenerator()
-  val coor : Seq[Double] = gen.generateRandomCoordinate()
-
-  var courier_id : String = gen.generateUUID()
-  var courier_score : Double = gen.generateScore()
-  var courier_created : Timestamp = gen.getTimestamp()
-  var lat : Double = coor(0)
-  var lon : Double = coor(1)
+  var courier_id : String = new SyntacticGenerator().generateUUID()
+  var courier_score : Double = new SyntacticGenerator().generateScore()
+  var courier_created : Timestamp = new SyntacticGenerator().getTimestamp()
+  var (lon, lat)  = new SyntacticGenerator().generateRandomCoordinate()
 
   override def toString = s"Courier($courier_id, $courier_score, $courier_created, $lat, $lon)"
+  (courier_id,courier_score,courier_created,lat,lon)
 }

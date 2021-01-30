@@ -11,10 +11,10 @@ class ModelTest {
 object ModelRunner {
 
   def main(args: Array[String]): Unit = {
-    val c1 = new Courier()
-    print(c1.toString)
-    val c2 = new Order()
-    print(c2.toString)
+    print(new Courier()+ "\n")
+    print(new Order()+ "\n")
+    print(new Courier()+ "\n")
+    print(new Order()+ "\n")
   }
 
 }

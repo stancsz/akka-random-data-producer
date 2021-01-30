@@ -25,10 +25,10 @@ class SyntacticGenerator {
   * */
   val (x1, y1, x2, y2) = (50.93693487404149, -114.13936397558079, 51.15709214704997, -113.96014950430495)
 
-  def generateRandomCoordinate(lat1: Double = x1, lon1: Double =y1, lat2: Double=x2, long2: Double=y2): Seq[Double] = {
+  def generateRandomCoordinate(lat1: Double = x1, lon1: Double =y1, lat2: Double=x2, long2: Double=y2): Tuple2[Double, Double] = {
     val lat = Random.between(lat1, lat2)
     val lon = Random.between(lon1, long2)
-    Seq(lat, lon)
+    (lat, lon)
   }
 
   def generateUUID(): String = {
