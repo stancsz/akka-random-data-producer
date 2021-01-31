@@ -30,8 +30,10 @@ object RandomSource {
   //db session
   implicit val session: SlickSession = SlickSession.forConfig("slick-mysql")
   import session.profile.api._
+  system.registerOnTermination(session.close())
 
-//  def basicFlow: Unit = {
+
+  //  def basicFlow: Unit = {
 //    //Basics and working with Flows
 //    // https://doc.akka.io/docs/akka/current/stream/stream-flows-and-basics.html
 //    val source = Source(1 to 10)
@@ -68,14 +70,15 @@ object RandomSource {
 
 
   def main(args: Array[String]): Unit = {
-
     val num = 5
-
     for (i <- 1 to num) {
       generateCourier
       generateOrder
       Thread.sleep(1000)
     }
+
+    session.close()
+
   }
 
 }
