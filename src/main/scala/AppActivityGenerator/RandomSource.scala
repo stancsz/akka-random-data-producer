@@ -4,11 +4,17 @@ package AppActivityGenerator
 //https://doc.akka.io/docs/akka/current/stream/stream-quickstart.html
 
 import Models.{Courier, Order}
+
+import akka.Done
 import akka.actor.ActorSystem
 import akka.stream._
 import akka.stream.alpakka.slick.javadsl.SlickSession
 import akka.stream.alpakka.slick.scaladsl.Slick
 import akka.stream.scaladsl._
+
+import scala.concurrent.{Await, Future}
+import scala.concurrent.duration.{DurationDouble, DurationInt}
+import scala.language.postfixOps
 
 
 
@@ -47,7 +53,7 @@ object RandomSource {
    */
   def generateCourier = {
     val cour = Seq(new Courier)
-    val done =
+    val done: Future[Done] =
       Source(cour)
         .log("cour")
         .runWith(
@@ -57,7 +63,7 @@ object RandomSource {
 
   def generateOrder = {
     val order = Seq(new Order)
-    val done =
+    val done: Future[Done] =
       Source(order)
         .log("order")
         .runWith(
@@ -68,10 +74,13 @@ object RandomSource {
 
   def main(args: Array[String]): Unit = {
     val num = 50
+    val pause = 50
     for (i <- 1 to num) {
       generateCourier
+      Thread.sleep(pause)
       generateOrder
-      Thread.sleep(1000)
+      Thread.sleep(pause)
+
     }
     session.close()
 
