@@ -45,8 +45,7 @@ object RandomSource {
    *
    * @return
    */
-  def generateCourier: Unit = {
-
+  def generateCourier = {
     val cour = Seq(new Courier)
     val done =
       Source(cour)
@@ -54,20 +53,26 @@ object RandomSource {
         .runWith(
           Slick.sink(cour => sqlu"INSERT INTO DeliveryDB.CourierTest (courier_id,courier_score,app_created_timestamp,lat,lon) VALUES(${cour.courier_id}, ${cour.courier_score}, ${cour.courier_created}, ${cour.lat}, ${cour.lon})")
         )
-        println(cour)
   }
 
-  def generateOrder = new Order
+  def generateOrder = {
+    val order = Seq(new Order)
+    val done =
+      Source(order)
+        .log("order")
+        .runWith(
+          Slick.sink(order => sqlu"INSERT INTO DeliveryDB.OrderTest (order_id,order_score,app_created_timestamp,lat,lon) VALUES(${order.order_id}, ${order.order_score}, ${order.order_created}, ${order.lat}, ${order.lon})")
+        )
+  }
 
 
   def main(args: Array[String]): Unit = {
-    val num = 1
+    val num = 50
     for (i <- 1 to num) {
       generateCourier
       generateOrder
       Thread.sleep(1000)
     }
-
     session.close()
 
   }
