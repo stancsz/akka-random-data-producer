@@ -3,22 +3,13 @@ package AppActivityGenerator
 
 //https://doc.akka.io/docs/akka/current/stream/stream-quickstart.html
 
-import akka.stream._
-import akka.stream.scaladsl._
-import akka.{Done, NotUsed}
+import Models.{Courier, Order}
 import akka.actor.ActorSystem
+import akka.stream._
 import akka.stream.alpakka.slick.javadsl.SlickSession
 import akka.stream.alpakka.slick.scaladsl.Slick
-import akka.util.{ByteString, Timeout}
-import com.sqlwriter.Models.{Courier, Order}
-import slick.basic.DatabaseConfig
-import slick.jdbc.JdbcProfile
-import slick.model.Table
+import akka.stream.scaladsl._
 
-import scala.concurrent._
-import scala.concurrent.duration._
-import java.nio.file.Paths
-import java.sql.Timestamp
 
 
 object RandomSource {
@@ -61,7 +52,7 @@ object RandomSource {
       Source(cour)
         .log("cour")
         .runWith(
-          Slick.sink(cour => sqlu"INSERT INTO DeliveryDB.CourierTest VALUES(${cour.courier_id}, ${cour.courier_score}, ${cour.courier_created}, ${cour.lat}, ${cour.lon})")
+          Slick.sink(cour => sqlu"INSERT INTO DeliveryDB.CourierTest (courier_id,courier_score,app_created_timestamp,lat,lon) VALUES(${cour.courier_id}, ${cour.courier_score}, ${cour.courier_created}, ${cour.lat}, ${cour.lon})")
         )
         println(cour)
   }
@@ -70,7 +61,7 @@ object RandomSource {
 
 
   def main(args: Array[String]): Unit = {
-    val num = 5
+    val num = 1
     for (i <- 1 to num) {
       generateCourier
       generateOrder
