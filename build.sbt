@@ -11,5 +11,6 @@ idePackagePrefix := Some("com.sqlwriter")
 libraryDependencies ++= Seq(
   "com.lightbend.akka" %% "akka-stream-alpakka-slick" % "2.0.2",
   "com.typesafe" % "config" % "1.4.1",
-  "com.typesafe.akka" %% "akka-stream" % AkkaVersion
+  "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
+  "ch.qos.logback" % "logback-classic" % "1.2.3" //https://github.com/playframework/playframework/issues/7422
 )

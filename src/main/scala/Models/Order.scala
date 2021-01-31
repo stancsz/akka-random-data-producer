@@ -12,4 +12,6 @@ class Order {
   var (lon, lat)  = new SyntacticGenerator().generateRandomCoordinate()
 
   override def toString = s"Order($order_id, $order_score, $order_created, $lat, $lon)"
+
+  def * = (order_id, order_score, order_created, lat, lon)
 }
