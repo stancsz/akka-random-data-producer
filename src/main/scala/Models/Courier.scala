@@ -12,5 +12,6 @@ class Courier() {
   var (lon, lat)  = new SyntacticGenerator().generateRandomCoordinate()
 
   override def toString = s"Courier($courier_id, $courier_score, $courier_created, $lat, $lon)"
-  (courier_id,courier_score,courier_created,lat,lon)
+
+  def * = (courier_id,courier_score,courier_created,lat,lon)
 }
