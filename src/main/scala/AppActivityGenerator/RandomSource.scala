@@ -12,8 +12,7 @@ import akka.stream.alpakka.slick.javadsl.SlickSession
 import akka.stream.alpakka.slick.scaladsl.Slick
 import akka.stream.scaladsl._
 
-import scala.concurrent.{Await, Future}
-import scala.concurrent.duration.{DurationDouble, DurationInt}
+import scala.concurrent.Future
 import scala.language.postfixOps
 
 
@@ -83,7 +82,7 @@ object RandomSource {
 
     }
     session.close()
-
+    System.exit(0)
   }
 
 }
