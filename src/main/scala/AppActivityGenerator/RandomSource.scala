@@ -72,13 +72,12 @@ object RandomSource {
 
 
   def main(args: Array[String]): Unit = {
-    val num = 10
-    val pause = 500
+    val num = 50000
     for (i <- 1 to num) {
       generateCourier
-      Thread.sleep(pause)
+      Thread.sleep(scala.util.Random.nextInt(5000)+500)
       generateOrder
-      Thread.sleep(pause)
+      Thread.sleep(scala.util.Random.nextInt(5000)+500)
 
     }
     session.close()
