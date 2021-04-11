@@ -12,8 +12,7 @@ import akka.stream.alpakka.slick.javadsl.SlickSession
 import akka.stream.alpakka.slick.scaladsl.Slick
 import akka.stream.scaladsl._
 
-import scala.concurrent.{Await, Future}
-import scala.concurrent.duration.{DurationDouble, DurationInt}
+import scala.concurrent.Future
 import scala.language.postfixOps
 
 
@@ -57,7 +56,7 @@ object RandomSource {
       Source(cour)
         .log("cour")
         .runWith(
-          Slick.sink(cour => sqlu"INSERT INTO DeliveryDB.CourierTest (courier_id,courier_score,app_created_timestamp,lat,lon) VALUES(${cour.courier_id}, ${cour.courier_score}, ${cour.courier_created}, ${cour.lat}, ${cour.lon})")
+          Slick.sink(cour => sqlu"INSERT INTO courier_order_db.CourierTest (courier_id,courier_score,app_created_timestamp,lat,lon) VALUES(${cour.courier_id}, ${cour.courier_score}, ${cour.courier_created}, ${cour.lat}, ${cour.lon})")
         )
   }
 
@@ -67,23 +66,22 @@ object RandomSource {
       Source(order)
         .log("order")
         .runWith(
-          Slick.sink(order => sqlu"INSERT INTO DeliveryDB.OrderTest (order_id,order_score,app_created_timestamp,lat,lon) VALUES(${order.order_id}, ${order.order_score}, ${order.order_created}, ${order.lat}, ${order.lon})")
+          Slick.sink(order => sqlu"INSERT INTO courier_order_db.OrderTest (order_id,order_score,app_created_timestamp,lat,lon) VALUES(${order.order_id}, ${order.order_score}, ${order.order_created}, ${order.lat}, ${order.lon})")
         )
   }
 
 
   def main(args: Array[String]): Unit = {
-    val num = 50
-    val pause = 50
+    val num = 50000
     for (i <- 1 to num) {
       generateCourier
-      Thread.sleep(pause)
+      Thread.sleep(scala.util.Random.nextInt(5000)+500)
       generateOrder
-      Thread.sleep(pause)
+      Thread.sleep(scala.util.Random.nextInt(5000)+500)
 
     }
     session.close()
-
+    System.exit(0)
   }
 
 }

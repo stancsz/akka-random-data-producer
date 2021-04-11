@@ -10,38 +10,41 @@ import slick.jdbc.GetResult
 
 import scala.concurrent.Future
 
+import java.sql.Timestamp
+
 object SQLSender {
 
   //Iris domain
-  case class Iris(id: Int, sepalLengthCm: Float, sepalWidthCm: Float, petalLengthCm: Float,
-                  petalWidthCm: Float, species: String)
+  case class Order(id: String, score: Double, created: Timestamp, lon: Double, lat: Double)
   //Transform the results of the query into Iris class instances
-  implicit val getIrisResult: AnyRef with GetResult[Iris] = GetResult(r => Iris(r.nextInt,
-    r.nextFloat, r.nextFloat, r.nextFloat, r.nextFloat, r.nextString))
+  implicit val getOrderResult: AnyRef with GetResult[Order] = GetResult(r => Order(r.nextString,
+    r.nextDouble, r.nextTimestamp, r.nextDouble, r.nextDouble))
   //Read each line into an Iris class instance
-  def lineRead(line: String): Iris = {
-    val fields = line.split(",")
-    Iris(fields(0).toInt, fields(1).toFloat, fields(2).toFloat, fields(3).toFloat, fields(4).toFloat, fields(5))
+  def lineRead(line: String, delim: String): Order = {
+    val fields = line.split(delim)
+    Order(fields(0), fields(1).toDouble, Timestamp.valueOf(fields(2)), fields(3).toDouble, fields(4).toDouble)
   }
 
 
-  def streamCSV(csvPath: String): Unit = {
+  def streamCSV(csvPath: String, header: Boolean, delim: String,databaseName: String, tableName: String): Unit = {
     //Set up SlickSession that reads the "slick-mysql" configuration from application.conf
     implicit val system: ActorSystem = ActorSystem()
     implicit val mat: ActorMaterializer = ActorMaterializer()
     implicit val session: SlickSession = SlickSession.forConfig("slick-mysql")
     system.registerOnTermination(session.close())
     val csvSource = scala.io.Source.fromFile(csvPath)
-    val lines = csvSource.getLines.drop(1).toList
-    val ires = lines.map(lineRead)
+    //If csv contains headers at the 1st line
+    val lines = csvSource.getLines.drop(if (header) 1 else 0).toList
+    val orders = lines.map(line => lineRead(line, delim))
     //This import enables the use of Slick sql"...", sqlu"...", sqlt"..." String interpolators.
     import session.profile.api._
     //This import enables executions of scala.concurrent.Future, similar to Java's Thread.
     import scala.concurrent.ExecutionContext.Implicits.global
     //Stream ires into the database as insert statements
+
     val done: Future[Done] =
-      Source(ires).runWith(
-        Slick.sink(iris => sqlu"INSERT INTO IrisTest.iris VALUES(${iris.id},${iris.sepalLengthCm},${iris.sepalWidthCm},${iris.petalLengthCm},${iris.petalWidthCm},${iris.species}")
+      Source(orders).runWith(
+        Slick.sink(order => sqlu"INSERT INTO $databaseName.$tableName VALUES(${order.id},${order.score},${order.created.toString},${order.lon},${order.lat}")
       )
     //Execute the Future[Done]
     done foreach {
@@ -53,7 +56,12 @@ object SQLSender {
 
 
   def main(args: Array[String]): Unit ={
-    streamCSV("./csv_data_source/Iris.csv")
+    val orderCSVPath = ""
+    val hasHeader = true
+    val delim = ","
+    val databaseName = ""
+    val tableName = ""
+    streamCSV(orderCSVPath, hasHeader, delim, databaseName, tableName)
   }
 
 }
